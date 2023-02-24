@@ -1,4 +1,5 @@
 //control patterns for the haptic array
+//this is still a rough draft
 
 //these pinouts are for the raspberry pi 3b
 GPIO.setup(0, GPIO.OUT)  //the front, right, top haptic
