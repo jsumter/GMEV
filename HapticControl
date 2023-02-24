@@ -16,6 +16,7 @@ GPIO.output(4, 0)
 GPIO.output(5, 0)
 GPIO.output(6, 0)
 
+//distance presets
 long = 10
 med = 5
 short = 1
