@@ -3,15 +3,17 @@ import time
 
 sensor = 16
 buzzer = 18
-
+sensor2 =13
+buzzer2 = 15
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(sensor,GPIO.IN)
 GPIO.setup(buzzer,GPIO.OUT)
-
-
+GPIO.setup(sensor2,GPIO.IN)
+GPIO.setup(buzzer2,GPIO.OUT)
 
 GPIO.output(buzzer,False)
+GPIO.output(buzzer2,False)
 print ('IR Sensor Ready.....')
 
 
@@ -22,8 +24,15 @@ try:
           print ('Object Detected')
           while GPIO.input(sensor):
               time.sleep(0.2)
+      if GPIO.input(sensor2):
+          GPIO.output(buzzer2,False)
+          print ('Object Detected')
+          while GPIO.input(sensor2):
+              time.sleep(0.2)
       else:
           GPIO.output(buzzer,True)
+          GPIO.output(buzzer2,True)
+   
 
 
 
