@@ -1,1 +1,9 @@
 //use this file to initialize the Pi with the updates we are using
+
+//initializing commands
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install rpi.gpio
+
+import RPi.GPIO as GPIO
+import time
