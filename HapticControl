@@ -3,7 +3,7 @@
 
 //these pinouts are for the raspberry pi 3b
 GPIO.setup(0, GPIO.OUT)  //the front, right, top haptic
-GPIO.setup(2, GPIO.OUT)   // the front, right, bottom haptic
+GPIO.setup(2, GPIO.OUT)  // the front, right, bottom haptic
 GPIO.setup(3, GPIO.OUT)  //the front, left, top haptic
 GPIO.setup(4, GPIO.OUT)  //the front, left, bottom haptic
 GPIO.setup(5, GPIO.OUT)  //the back, right side haptic
@@ -28,14 +28,14 @@ if Sensor_Distance = infinity:  // not sure how to code this, but this condition
   sleep(0.1)   
 elif Sensor_Distance >= 1ong:
   GPIO.output(2, 1)         # set GPIO to 1/GPIO.HIGH/True  
-  sleep(0.1)                 # wait
+  sleep(1)                 # wait
   GPIO.output(2, 0)         # set GPIO to 0/GPIO.LOW/False  
-  sleep(0.1)   
+  sleep(1)   
 elif Sensor_Distance >= med:
   GPIO.output(2, 1)         # set GPIO to 1/GPIO.HIGH/True  
-  sleep(0.1)                 # wait
+  sleep(0.5)                 # wait
   GPIO.output(2, 0)         # set GPIO to 0/GPIO.LOW/False  
-  sleep(0.1)   
+  sleep(0.5)   
 else: //if the distance is not registered, long or med, then it must be short
   GPIO.output(2, 1)         # set GPIO to 1/GPIO.HIGH/True  
   sleep(0.1)                 # wait
