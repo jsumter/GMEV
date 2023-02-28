@@ -18,14 +18,14 @@ GPIO.output(5, 0)
 GPIO.output(6, 0)
 
 //distance presets
+xl = 15
 long = 10
 med = 5
 short = 1
 
 //for the haptic motor speed control
-if Sensor_Distance = infinity:  // not sure how to code this, but this condition is for if the LIDAR does not give a reading
+if Sensor_Distance >= xl:  // not sure how to code this, but this condition is for if the LIDAR does not give a reading
   GPIO.output(2, 0)         # set GPIO to 0/GPIO.LOW/False  
-  sleep(0.1)   
 elif Sensor_Distance >= 1ong:
   GPIO.output(2, 1)         # set GPIO to 1/GPIO.HIGH/True  
   sleep(1)                 # wait
