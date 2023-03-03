@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
+#Do not use it is to long
+
+
+
 Created on Mon Feb 20 19:29:44 2023
 
-@author: smayn
+@author:
 """
 
 import serial,time
