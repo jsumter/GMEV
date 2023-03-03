@@ -1,0 +1,56 @@
+import RPi.GPIO as GPIO
+import time
+import serial
+
+GPIO.setwarnings(False)
+
+# set up GPIO                                 #This code will set off a motor when the LiDAR detects an object, I still need to add a stop feature.
+GPIO.setmode(GPIO.BCM)                        #It does make the motor vibrate faster depending on distance, but it still needs tweaking.
+GPIO.setup(13, GPIO.OUT)                      #Feel free to make any changes, I will work on this more over spring break.
+
+# set up serial port
+ser = serial.Serial('/dev/ttyS0', 115200, timeout=1)
+
+try:
+    while True:
+        # read 9 bytes from LiDAR
+        data = ser.read(9)
+        # extract distance from data
+        distance = int.from_bytes(data[2:4], byteorder='little')
+        # check if object is within range
+        while 76 <= distance <= 150:
+            # vibrate motor for 1 second
+            GPIO.output(13, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.output(13, GPIO.LOW)
+            time.sleep(1)
+            # read distance again
+            data = ser.read(9)
+            distance = int.from_bytes(data[2:4], byteorder='little')
+        while 26 <= distance <= 75:
+            # vibrate motor for 0.5 seconds
+            GPIO.output(13, GPIO.HIGH)
+            time.sleep(0.5)
+            GPIO.output(13, GPIO.LOW)
+            time.sleep(0.5)
+            # read distance again
+            data = ser.read(9)
+            distance = int.from_bytes(data[2:4], byteorder='little')
+        while distance <= 25:
+            # vibrate motor for 0.25 seconds
+            GPIO.output(13, GPIO.HIGH)
+            time.sleep(0.25)
+            GPIO.output(13, GPIO.LOW)
+            time.sleep(0.25)
+            # read distance again
+            data = ser.read(9)
+            distance = int.from_bytes(data[2:4], byteorder='little')
+        # object not in range, turn off motor
+        GPIO.output(13, GPIO.LOW)
+except KeyboardInterrupt:
+    print("Stopping program...")
+finally:
+    # cleanup GPIO
+    GPIO.cleanup()
+    # close serial port
+    ser.close()
