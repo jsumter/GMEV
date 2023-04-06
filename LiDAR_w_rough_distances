@@ -4,53 +4,91 @@ import serial
 
 GPIO.setwarnings(False)
 
-# set up GPIO                                 #This code will set off a motor when the LiDAR detects an object, I still need to add a stop feature.
-GPIO.setmode(GPIO.BCM)                        #It does make the motor vibrate faster depending on distance, but it still needs tweaking.
-GPIO.setup(13, GPIO.OUT)                      #Feel free to make any changes, I will work on this more over spring break.
+# set up GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(13, GPIO.OUT)
+GPIO.setup(5, GPIO.OUT)
 
 # set up serial port
-ser = serial.Serial('/dev/ttyS0', 115200, timeout=1)
+ser1 = serial.Serial('/dev/ttyS0', 115200, timeout=1)
+ser2 = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
 
 try:
+#vvvvvvvvvvlidar1vvvvvvvvvvvv#
     while True:
         # read 9 bytes from LiDAR
-        data = ser.read(9)
+        data1 = ser1.read(9)
         # extract distance from data
-        distance = int.from_bytes(data[2:4], byteorder='little')
+        distance_mm1 = int.from_bytes(data1[2:4], byteorder='little')
+        distance_cm1 = distance_mm1 / 10 # convert mm to cm
+        print(f"Distance 1: {distance_cm1:.1f} cm ({distance_mm1} mm)")
+        
+        
         # check if object is within range
-        while 76 <= distance <= 150:
+        if 50 <= distance_cm1 <= 60:
             # vibrate motor for 1 second
             GPIO.output(13, GPIO.HIGH)
             time.sleep(1)
             GPIO.output(13, GPIO.LOW)
             time.sleep(1)
-            # read distance again
-            data = ser.read(9)
-            distance = int.from_bytes(data[2:4], byteorder='little')
-        while 26 <= distance <= 75:
+        elif 25 <= distance_cm1 <= 49:
             # vibrate motor for 0.5 seconds
             GPIO.output(13, GPIO.HIGH)
             time.sleep(0.5)
             GPIO.output(13, GPIO.LOW)
             time.sleep(0.5)
-            # read distance again
-            data = ser.read(9)
-            distance = int.from_bytes(data[2:4], byteorder='little')
-        while distance <= 25:
+        elif 22 <= distance_cm1 <= 24:
             # vibrate motor for 0.25 seconds
             GPIO.output(13, GPIO.HIGH)
             time.sleep(0.25)
             GPIO.output(13, GPIO.LOW)
             time.sleep(0.25)
-            # read distance again
-            data = ser.read(9)
-            distance = int.from_bytes(data[2:4], byteorder='little')
         # object not in range, turn off motor
-        GPIO.output(13, GPIO.LOW)
+        else:
+            GPIO.output(13, GPIO.LOW)
+            
+#^^^^^^^^^^lidar1^^^^^^^^^^^^#
+#vvvvvvvvvvlidar2vvvvvvvvvvvv#
+    
+        # read 9 bytes from LiDAR
+        data2 = ser2.read(9)
+        # extract distance from data
+        distance_mm2 = int.from_bytes(data2[2:4], byteorder='little')
+        distance_cm2 = distance_mm2 / 10 # convert mm to cm
+        print(f"Distance 2: {distance_cm2:.1f} cm ({distance_mm2} mm)")
+        
+
+        
+        # check if object is within range
+        if 50 <= distance_cm2 <= 60:
+            # vibrate motor for 1 second
+            GPIO.output(5, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.output(5, GPIO.LOW)
+            time.sleep(1)
+        elif 25 <= distance_cm2 <= 49:
+            # vibrate motor for 0.5 seconds
+            GPIO.output(5, GPIO.HIGH)
+            time.sleep(0.5)
+            GPIO.output(5, GPIO.LOW)
+            time.sleep(0.5)
+        elif 22 <= distance_cm2 <= 24:
+            # vibrate motor for 0.25 seconds
+            GPIO.output(5, GPIO.HIGH)
+            time.sleep(0.25)
+            GPIO.output(5, GPIO.LOW)
+            time.sleep(0.25)
+        # object not in range, turn off motor
+        else:
+            GPIO.output(5, GPIO.LOW)
+            
+#^^^^^^^^^^lidar2^^^^^^^^^^^^#
+######## Stop program ##########
 except KeyboardInterrupt:
     print("Stopping program...")
 finally:
     # cleanup GPIO
     GPIO.cleanup()
     # close serial port
-    ser.close()
+    ser1.close()
+    ser2.close()
