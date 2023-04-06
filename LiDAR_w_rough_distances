@@ -83,7 +83,7 @@ try:
             GPIO.output(5, GPIO.LOW)
             
 #^^^^^^^^^^lidar2^^^^^^^^^^^^#
-######## Stop program ##########
+######## Stop program ########## "Ctrl c" ###############
 except KeyboardInterrupt:
     print("Stopping program...")
 finally:
