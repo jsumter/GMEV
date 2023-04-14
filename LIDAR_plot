@@ -1,0 +1,46 @@
+import HAPTIC_CONTROL
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+motor1 = 11
+motor2 = 15
+GPIO.setup(motor1,GPIO.OUT)
+GPIO.setup(motor2,GPIO.OUT)
+
+
+
+lidar_s = []	#these are the arrays used for graphing
+motor1_s = []
+motor2_s = []
+ir_s = []
+
+for t in range (0,500):
+    LIDAR1 = GMEV_Sensors.LIDAR_GPIO()
+    distance = LIDAR1
+    haptic1 = HAPTIC_CONTROL.motortop(motor1, distance)
+    top_motor = haptic1 
+    haptic2 = HAPTIC_CONTROL.motorbot(motor2, distance)
+    bottom_motor = haptic2
+    
+    Infrared = GMEV_Sensors.IR(IR)
+    IR_Signal = Infrared
+    haptic3 = HAPTIC_CONTROL.IR(motor3, IR_Signal)
+    back_motor = haptic3
+    
+    print(distance)
+    lidar_s.append(distance)
+    motor1_s.append(top_motor)
+    motor2_s.append(bottom_motor)
+    ir_s.append(back_motor)
+
+plt.plot(motor1_s[1::10], label = 'Top Motor')
+plt.plot(motor2_s[1::10], label = 'Bottom Motor')
+plt.legend()
+plt.savefig(str('Motor').split()[0]+'.png')
+plt.close()
+
+fig, ax = plt.subplots()
+ax.set_title('LIDAR Readings')
+ax.set_ylabel('Distance (cm)')
+plt.plot(lidar_s[1::10])
+plt.savefig(str('LIDAR').split()[0]+'.png')
