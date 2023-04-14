@@ -1,0 +1,26 @@
+import serial
+import time
+import RPi.GPIO as GPIO
+
+ser = serial.Serial('/dev/ttyAMA0',115200,timeout = 1)
+
+def LIDAR_GPIO():
+    while(True):
+        while(ser.in_waiting >= 9):
+            if((b'Y' == ser.read()) and ( b'Y' == ser.read())):
+                Dist_L = ser.read()
+                Dist_H = ser.read()
+                Dist_Total = (ord(Dist_H) * 256) + (ord(Dist_L)) 
+                return Dist_Total
+            
+def IR(sensor):                     #this module works for data but no for plotting
+    while (True):
+        if GPIO.input(sensor):
+            output = 0
+            return output
+        else:
+            output = 1
+            return output
+
+#Still need a LIDAR-TTL function here, then will be finished
+
