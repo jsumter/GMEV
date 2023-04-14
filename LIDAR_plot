@@ -1,3 +1,8 @@
+import matplotlib.pyplot as plt
+import serial
+import time
+import RPi.GPIO as GPIO
+import GMEV_Sensors
 import HAPTIC_CONTROL
 
 GPIO.setmode(GPIO.BOARD)
