@@ -22,16 +22,11 @@ for t in range (0,500):
     haptic2 = HAPTIC_CONTROL.motorbot(motor2, distance)
     bottom_motor = haptic2
     
-    Infrared = GMEV_Sensors.IR(IR)
-    IR_Signal = Infrared
-    haptic3 = HAPTIC_CONTROL.IR(motor3, IR_Signal)
-    back_motor = haptic3
     
     print(distance)
     lidar_s.append(distance)
     motor1_s.append(top_motor)
     motor2_s.append(bottom_motor)
-    ir_s.append(back_motor)
 
 plt.plot(motor1_s[1::10], label = 'Top Motor')
 plt.plot(motor2_s[1::10], label = 'Bottom Motor')
