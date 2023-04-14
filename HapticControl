@@ -1,42 +1,65 @@
-//control patterns for the haptic array
-//this is still a rough draft
+#motortop motorbot are the top motor and bottom motor, respectively, and can be instanced for the left & right side
+#IR is for the motors on the back
+#long, med and short can and should be changed for the final project (the current values were used for testing)
 
-//these pinouts are for the raspberry pi 3b
-GPIO.setup(0, GPIO.OUT)  //the front, right, top haptic
-GPIO.setup(2, GPIO.OUT)  // the front, right, bottom haptic
-GPIO.setup(3, GPIO.OUT)  //the front, left, top haptic
-GPIO.setup(4, GPIO.OUT)  //the front, left, bottom haptic
-GPIO.setup(5, GPIO.OUT)  //the back, right side haptic
-GPIO.setup(6, GPIO.OUT)  // the back, left side haptic
+def motortop(motortop, Sensor_Distance):
+    import RPi.GPIO as GPIO
+    import time
+    long = 70
+    med = 40
+    short = 20
+    if Sensor_Distance >= long: 
+        GPIO.output(motortop, 0)
+        output = 0
+        return output
+    elif Sensor_Distance >= med:
+        GPIO.output(motortop, 1)		#Long Range
+        output = 1
+        return output
+    elif Sensor_Distance >= short:
+        GPIO.output(motortop, 0)	#Medium Range
+        output = 0
+        return output
+    else:
+        GPIO.output(motortop, 1)			 #Short Range
+        output = 1
+        return output
+    
+def motorbot(motorbot, Sensor_Distance):
+    import RPi.GPIO as GPIO
+    import time
+    long = 70
+    med = 40
+    short = 20
+    if Sensor_Distance >= long: 
+        GPIO.output(motorbot, 0)
+        output = 0
+        return output
+    elif Sensor_Distance >= med:
+        GPIO.output(motorbot, 0)		#long range
+        output = 0
+        return output
+    elif Sensor_Distance >= short:
+        GPIO.output(motorbot, 1)         #medium Range
+        output = 1
+        return output
+    else:
+        GPIO.output(motorbot, 1)		#short range
+        output = 1
+        return output
 
-//initialize all the outputs to be OFF
-GPIO.output(0, 0)
-GPIO.output(2, 0)
-GPIO.output(3, 0)
-GPIO.output(4, 0)
-GPIO.output(5, 0)
-GPIO.output(6, 0)
-
-//distance presets
-long = 18
-med = 12
-short = 6
-
-//for the haptic motor speed control
-if Sensor_Distance >= long: 
-  GPIO.output(2, 0)         # set GPIO to 0/GPIO.LOW/False  
-elif Sensor_Distance >= med:
-  GPIO.output(2, 1)         # set GPIO to 1/GPIO.HIGH/True  
-  sleep(1)                 # wait
-  GPIO.output(2, 0)         # set GPIO to 0/GPIO.LOW/False  
-  sleep(1)   
-elif Sensor_Distance >= short:
-  GPIO.output(2, 1)         # set GPIO to 1/GPIO.HIGH/True  
-  sleep(0.5)                 # wait
-  GPIO.output(2, 0)         # set GPIO to 0/GPIO.LOW/False  
-  sleep(0.5)   
-else: //if the distance is not registered, long or med, then it must be short
-  GPIO.output(2, 1)         # set GPIO to 1/GPIO.HIGH/True  
-  sleep(0.1)                 # wait
-  GPIO.output(2, 0)         # set GPIO to 0/GPIO.LOW/False  
-  sleep(0.1)   
+def IR(motorback, IR):
+    import RPi.GPIO as GPIO
+    import time
+    if IR == 1:
+        GPIO.output(motorback, 1)
+        output = 1
+        return output
+    elif IR == 0:
+        GPIO.output(motorback, 0)
+        output = 0
+        return output
+    else:
+        GPIO.output(motorback, 0)
+        output = 0
+        return output
