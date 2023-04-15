@@ -2,14 +2,12 @@
 #IR is for the motor on the back
 #long, med and short can and should be changed for the final project (the current values were used for testing)
 
+import RPi.GPIO as GPIO
 long = 70   #distance value in centimeters, the BENEWAKE LIDAR TFmini has a range of 0.3m - 12m
 med = 40
 short = 20
 
-import RPi.GPIO as GPIO
-long = 70
-med = 40
-short = 20
+
 
 def motortop(motortop, Sensor_Distance):
     if Sensor_Distance >= long:     #Out of range
