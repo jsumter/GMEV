@@ -1,14 +1,18 @@
 #motortop motorbot are the top motor and bottom motor, respectively, and can be instanced for the left & right side
-#IR is for the motors on the back
+#IR is for the motor on the back
 #long, med and short can and should be changed for the final project (the current values were used for testing)
 
+long = 70   #distance value in centimeters, the BENEWAKE LIDAR TFmini has a range of 0.3m - 12m
+med = 40
+short = 20
+
+import RPi.GPIO as GPIO
+long = 70
+med = 40
+short = 20
+
 def motortop(motortop, Sensor_Distance):
-    import RPi.GPIO as GPIO
-    import time
-    long = 70
-    med = 40
-    short = 20
-    if Sensor_Distance >= long: 
+    if Sensor_Distance >= long:     #Out of range
         GPIO.output(motortop, 0)
         output = 0
         return output
@@ -26,12 +30,7 @@ def motortop(motortop, Sensor_Distance):
         return output
     
 def motorbot(motorbot, Sensor_Distance):
-    import RPi.GPIO as GPIO
-    import time
-    long = 70
-    med = 40
-    short = 20
-    if Sensor_Distance >= long: 
+    if Sensor_Distance >= long:     #Out of range
         GPIO.output(motorbot, 0)
         output = 0
         return output
@@ -49,8 +48,6 @@ def motorbot(motorbot, Sensor_Distance):
         return output
 
 def IR(motorback, IR):
-    import RPi.GPIO as GPIO
-    import time
     if IR == 1:
         GPIO.output(motorback, 1)
         output = 1
@@ -63,3 +60,4 @@ def IR(motorback, IR):
         GPIO.output(motorback, 0)
         output = 0
         return output
+
