@@ -9,14 +9,17 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 motor1 = 11
 motor2 = 15
+motor3 = 16
+IR = 13
+GPIO.setup(IR,GPIO.IN)
 GPIO.setup(motor1,GPIO.OUT)
 GPIO.setup(motor2,GPIO.OUT)
-
-
+GPIO.setup(motor3,GPIO.OUT)
 
 lidar_s = []	#these are the arrays used for graphing
 motor1_s = []
 motor2_s = []
+motor3_s = []
 ir_s = []
 
 for t in range (0,500):
@@ -27,20 +30,37 @@ for t in range (0,500):
     haptic2 = HAPTIC_CONTROL.motorbot(motor2, distance)
     bottom_motor = haptic2
     
+    Infrared = GMEV_Sensors.IR(IR)
+    IR_Signal = Infrared
+    haptic3 = HAPTIC_CONTROL.IR(motor3, IR_Signal)
+    back_motor = haptic3
     
     print(distance)
     lidar_s.append(distance)
     motor1_s.append(top_motor)
     motor2_s.append(bottom_motor)
+    motor3_s.append(back_motor)
+    ir_s.append(back_motor)
 
 plt.plot(motor1_s[1::10], label = 'Top Motor')
 plt.plot(motor2_s[1::10], label = 'Bottom Motor')
 plt.legend()
 plt.savefig(str('Motor').split()[0]+'.png')
-plt.close()
+plt.close
 
-fig, ax = plt.subplots()
+fig , ax = plt.subplots()
+plt.plot(lidar_s[1::10])
 ax.set_title('LIDAR Readings')
 ax.set_ylabel('Distance (cm)')
-plt.plot(lidar_s[1::10])
 plt.savefig(str('LIDAR').split()[0]+'.png')
+plt.close()
+
+plt.plot(motor3_s[1::10], label = 'Back Motor')
+
+fig, ax = plt.subplots()
+ax.set_title('IR Readings')
+ax.set_ylabel('Object Detected')
+plt.plot(ir_s[1::10])
+plt.legend()
+plt.savefig(str('IR').split()[0]+'.png')
+plt.close()
