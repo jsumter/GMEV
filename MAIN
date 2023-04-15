@@ -1,0 +1,50 @@
+import serial
+import time
+import RPi.GPIO as GPIO
+import GMEV_Sensors
+import HAPTIC_CONTROL
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+motor_top_left = 11
+motor_bottom_left = 15
+motor_top_right = 18 
+motor_bottom_right = 22 
+motor_back = 16
+IR = 13
+ser1 = serial.Serial('/dev/ttyAMA0',115200,timeout = 1)
+ser2 = serial.Serial('/dev/ttyUSB0',115200,timeout = 1)
+
+GPIO.setup(motor_top_left,GPIO.OUT)
+GPIO.setup(motor_bottom_left,GPIO.OUT)
+GPIO.setup(motor_top_right,GPIO.OUT)
+GPIO.setup(motor_bottom_right,GPIO.OUT)
+GPIO.setup(motor_back,GPIO.OUT)
+GPIO.setup(IR,GPIO.IN)
+
+
+
+while True:
+    LIDAR1 = GMEV_Sensors.LIDAR(ser1)
+    distance_left = LIDAR1
+    haptic1 = HAPTIC_CONTROL.motortop(motor_top_left, distance_left)
+    haptic2 = HAPTIC_CONTROL.motorbot(motor_bottom_left, distance_left)
+    
+    LIDAR2 = GMEV_Sensors.LIDAR(ser2)
+    distance_right = LIDAR1
+    haptic3 = HAPTIC_CONTROL.motortop(motor_top_right, distance_right)
+    haptic4 = HAPTIC_CONTROL.motorbot(motor_bottom_right, distance_right)
+    
+    infrared_detect = GMEV_Sensors.IR(IR)
+    haptic5 = HAPTIC_CONTROL.IR(motor_back, infrared_detect)
+    
+    
+    #for test:
+    top_left_motor = haptic1
+    bottom_left_motor = haptic2
+    top_right_motor = haptic3
+    bottom_right_motor = haptic4
+    back_motor = haptic5
+    
+    #for IR sensor use infrared_detect
+    GMEV_Sensors.test(bottom_right_motor, distance_right) 
