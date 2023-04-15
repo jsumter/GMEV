@@ -31,3 +31,10 @@ while True:
     bottom_motor = haptic2
     
     Infrared = GMEV_Sensors.IR(IR)
+    IR_Signal = Infrared
+    haptic3 = HAPTIC_CONTROL.IR(motor3, IR_Signal)
+    motorback = haptic3
+    #print(distance)
+    #print(top_motor)
+    #print(bottom_motor)
+    #print(IR_Signal)   
